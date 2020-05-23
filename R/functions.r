@@ -55,3 +55,41 @@ bayesian_lasso_MCMC <- function(maxit, X, Y, delta = 1.78, r = 1, beta_init = 0,
     return(list(beta = beta, sigma2 = sigma2, invtau = invtau, lambda2 = lambda2))
 }
 
+chain_cleaner <- function(parameters_matrix, burn_in, thinning){
+
+#   parameters_matrix: Expection a matrix where each column is a parameter and each row is a sampled value from the posterior.
+#   burn_in: burn in value 
+#   thinning: thinning value
+
+  n = dim(parameters_matrix)[1]
+  p = dim(parameters_matrix)[2]
+  
+  return(parameters_matrix[seq(burn_in, n, by = thinning),])
+}
+
+#package checking 
+pkgLoad <- function( packages = "favourites" ) {
+  
+  if( length( packages ) == 1L && packages == "favourites" ) {
+    packages <- c( "mvtnorm", "invgamma", "SuppDists", "glmnet")
+  }
+  
+  packagecheck <- match( packages, utils::installed.packages()[,1] )
+  
+  packagestoinstall <- packages[ is.na( packagecheck ) ]
+  
+  if( length( packagestoinstall ) > 0L ) {
+    utils::install.packages( packagestoinstall,
+                             repos = "http://cran.csiro.au"
+    )
+  } else {
+    print( "All requested packages already installed" )
+  }
+  
+  for( package in packages ) {
+    suppressPackageStartupMessages(
+      library( package, character.only = TRUE, quietly = TRUE )
+    )
+  }
+  
+}
