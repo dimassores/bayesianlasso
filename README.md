@@ -1,4 +1,4 @@
-# bayesianlasso
+# The Bayesian Lasso
 The bayesian lasso through gibbs sampling presented by Park and Casella (2008)
 
 The gibbs sampling was implemented as the article proposed, and compared it with the traditional lasso on the glmnet package in a toy example. 
