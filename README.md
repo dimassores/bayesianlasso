@@ -1,7 +1,7 @@
 # The Bayesian LASSO
-The Bayesian LASSO through Gibbs Sampling presented by Park and Casella (2008)
+The Bayesian LASSO through Gibbs sampling presented by Park and Casella (2008)
 
-The gibbs sampling was implemented as the article proposed, and compared it with the traditional lasso on the `glmnet` package in a toy example. 
+The Gibbs sampling was implemented as the article proposed, and compared it with the traditional lasso on the `glmnet` package in a toy example. 
 
 `functions.R` has all the functions used and `paper_example.R` has a example of how to use all functions.
 
