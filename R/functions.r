@@ -17,7 +17,7 @@ bayesian_lasso_MCMC <- function(maxit, X, Y, delta = 1.78, r = 1, beta_init = 0,
     beta = matrix(NA, nrow = maxit, ncol = p)
     sigma2 = c()
     lambda2 = c()
-    invtau = matrix(NA,nrow = maxit,ncol = p)
+    invtau = matrix(NA, nrow = maxit,ncol = p)
 
     beta[1,] = beta_init
     sigma2[1] = sigma2_init
