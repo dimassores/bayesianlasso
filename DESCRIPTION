@@ -1,0 +1,25 @@
+Package: bayesianlasso
+Title: Bayesian LASSO Implementation Using Gibbs Sampling
+Version: 0.1.0
+Authors@R: 
+    person("Dimas", "Soares", , "dimassoareslima@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = ""))
+Description: Implements the Bayesian LASSO method through Gibbs sampling as presented 
+    by Park and Casella (2008). This package provides tools for performing Bayesian 
+    LASSO regression, including MCMC sampling, diagnostics, and visualization tools.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    mvtnorm,
+    invgamma,
+    SuppDists,
+    glmnet,
+    stats
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+VignetteBuilder: knitr 

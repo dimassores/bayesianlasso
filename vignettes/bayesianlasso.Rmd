@@ -1,0 +1,112 @@
+---
+title: "Introduction to bayesianlasso"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to bayesianlasso}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction to the Bayesian LASSO
+
+The Bayesian LASSO (Least Absolute Shrinkage and Selection Operator) is a powerful method that combines the benefits of LASSO regression with Bayesian inference. This vignette demonstrates how to use the `bayesianlasso` package to perform Bayesian LASSO regression.
+
+## Basic Usage
+
+First, let's load the package and create some example data:
+
+```{r setup}
+library(bayesianlasso)
+
+# Generate example data
+set.seed(123)
+n <- 100  # number of observations
+p <- 5    # number of predictors
+
+# Create design matrix
+X <- matrix(rnorm(n * p), n, p)
+# True coefficients (some are zero)
+beta_true <- c(1, 0.5, 0, -0.8, 0.3)
+# Generate response
+y <- X %*% beta_true + rnorm(n, 0, 0.5)
+```
+
+## Fitting the Model
+
+Now we can fit the Bayesian LASSO model:
+
+```{r}
+# Fit the model
+result <- bayesian_lasso_MCMC(
+  maxit = 10000,
+  X = X,
+  Y = y
+)
+```
+
+## Processing MCMC Output
+
+After fitting the model, we typically want to:
+1. Remove burn-in samples
+2. Apply thinning to reduce autocorrelation
+3. Calculate posterior summaries
+
+```{r}
+# Clean the MCMC chain
+cleaned_beta <- chain_cleaner(
+  result$beta,
+  burn_in = 2000,
+  thinning = 5
+)
+
+# Calculate posterior means
+beta_post_mean <- colMeans(cleaned_beta)
+print(data.frame(
+  True = beta_true,
+  Estimated = beta_post_mean,
+  row.names = paste0("beta", 1:p)
+))
+```
+
+## Convergence Diagnostics
+
+It's important to check for MCMC convergence:
+
+```{r}
+# Plot traces for each coefficient
+par(mfrow = c(2, 3))
+for(i in 1:p) {
+  plot(cleaned_beta[,i], type = "l",
+       main = paste("Beta", i),
+       ylab = "Value",
+       xlab = "Iteration")
+}
+```
+
+## Comparison with Classical LASSO
+
+We can compare our results with the classical LASSO:
+
+```{r}
+library(glmnet)
+cv_fit <- cv.glmnet(X, y, alpha = 1)
+lasso_coef <- coef(cv_fit, s = "lambda.min")[-1]  # Remove intercept
+
+print(data.frame(
+  True = beta_true,
+  Bayesian = beta_post_mean,
+  Classical = lasso_coef,
+  row.names = paste0("beta", 1:p)
+))
+```
+
+## Conclusion
+
+The Bayesian LASSO provides not just point estimates but entire posterior distributions for the coefficients. This allows for more comprehensive inference and uncertainty quantification compared to the classical LASSO. 

@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^README\.md$
+^LICENSE$
+^R-4\.3\.1$
+^install_.*\.(bat|ps1|R)$
+^run_tests\.(bat|R)$
+^\.Rbuildignore$ 

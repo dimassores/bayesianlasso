@@ -1,4 +1,17 @@
-.Rproj.user
+# R specific
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+*.Rcheck/
+*.tar.gz
+*.Rproj
+
+# System specific
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.o
+*.so
+*.dll
